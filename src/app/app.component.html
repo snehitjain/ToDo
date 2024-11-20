@@ -12,11 +12,10 @@
   </div>
 
   <div *ngIf="data.length">
-    <ul>
-      <div *ngFor="let item of data">
-        <li>{{ item.name }}</li>
-      </div>
-    </ul>
+    <div *ngFor="let item of data">
+      <input type="radio" [value]="item._id" [(ngModel)]="selectedTask" (change)="onTaskSelect(item._id)" />
+      <label>{{ item.name }}</label>
+    </div>
   </div>
   <div *ngIf="!data.length">
     <p>No data available</p>

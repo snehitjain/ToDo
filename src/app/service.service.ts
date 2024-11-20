@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, IterableDiffers } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import ITodo from './model/list';
 
 @Injectable({
   providedIn: 'root'
@@ -10,20 +11,20 @@ export class ServiceService {
 
   constructor(private http: HttpClient) { }
 
-  getData(data:object): Observable<ITodo[]> {
-    return this.http.get<ITodo[]>(`${this.apiUrl}`,data);
+  getData(): Observable<ITodo[]> {
+    return this.http.get<ITodo[]>(`${this.apiUrl}`);
   }
    
-  getDatabyId(id:number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`);
+  getDatabyId(id:string): Observable<ITodo> {
+    return this.http.get<ITodo>(`${this.apiUrl}/${id}`);
   }
 
   // postData(data: object): Observable<any> {
   //   return this.http.post(`${this.apiUrl}`, data);
   // }
   
-  postData(data: Omit<any[], '_id'|'completed'|'v'>) {
-    return this.http.post<any[]>(`${this.apiUrl}`, data, {
+  postData(ITodo: Omit<ITodo, '_id'|'completed'|'__v'>) {
+    return this.http.post<ITodo>(`${this.apiUrl}`, ITodo, {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -31,12 +32,19 @@ export class ServiceService {
 }
 
   
-  updateData(id: number, data: object): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${id}`, data);
+  updateData(ITodo: Omit<ITodo, '_id'>, id: string) {
+    return this.http.patch<ITodo>(
+        `${this.apiUrl}/${id}`,
+        ITodo,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }
+    );
   }
 
-
-  deleteDatabyId(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  deleteDatabyId(id:string){
+    return this.http.delete<{}>(`${this.apiUrl}/${id}`);
   }
 }

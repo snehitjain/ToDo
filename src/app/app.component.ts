@@ -1,25 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ListComponent } from './list/list.component';
 import { ServiceService } from './service.service';
 import { CommonModule } from '@angular/common';
+import ITodo from './model/list';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ListComponent,CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
   data: ITodo[] = [];
   newItem: string='';
-  interface ITodo {
-    _id: number;
-    name: string;
-    complete:string;
-    v:string;
-}
+  id:string='';
+  selectedTask!: string ;
+  
  
   constructor(private service: ServiceService) {}
 
@@ -27,7 +25,21 @@ export class AppComponent implements OnInit {
     this.getData();
   }
   
-
+  onTaskSelect(_id:string):void{
+    this.selectedTask=_id;
+    console.log(`selected id ${_id}`);
+    this.service.deleteDatabyId(_id).subscribe(
+      (deletion)=>{
+        console.log(deletion);
+        this.data = this.data.filter(item => item._id !== _id)
+      },
+      (error)=>{
+        console.error('Error deleting task',error);
+        alert('There was error deleting the task')
+      }
+    )
+  }
+  
   getData(): void {
     this.service.getData().subscribe(
       (response) => {
