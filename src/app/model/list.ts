@@ -1,7 +1,7 @@
 interface ITodo{
     _id: string;
     name:string;
-    completed:string;
+    completed:boolean;
     __v:string;
 
 }

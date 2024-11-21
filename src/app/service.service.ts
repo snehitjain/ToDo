@@ -32,7 +32,7 @@ export class ServiceService {
 }
 
   
-  updateData(ITodo: Omit<ITodo, '_id'>, id: string) {
+  updateData(ITodo: Omit<ITodo, '_id'|'__v'|'name'>, id: string) {
     return this.http.patch<ITodo>(
         `${this.apiUrl}/${id}`,
         ITodo,
