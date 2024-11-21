@@ -14,8 +14,8 @@ import { FormsModule } from '@angular/forms';
 export class AppComponent implements OnInit {
   data: ITodo[] = [];
   filterdata: ITodo[] = [];
-  f1data: ITodo[]=[];
-  f2data: ITodo[]=[];
+  
+ 
 
   newItem: string = '';
   id: string = '';
@@ -28,22 +28,22 @@ export class AppComponent implements OnInit {
   taskLeft():number{
     return this.data.filter(task => !task.completed).length;
   }
-  allTask():ITodo[]{
+  allTask(){
     console.log("alltask",this.filterdata)
-    return this.filterdata;
+    this.filterdata=this.data;
     
   }
   completedTask(){
     console.log("complted task");
-    this.f1data=this.data.filter(tasks=>tasks.completed)
-    console.log(this.f1data)
+    this.filterdata=this.data.filter(tasks=>tasks.completed)
+    console.log(this.filterdata)
     
 
   }
   activeTask(){
     console.log("active task");
-    this.f2data=this.data.filter(task=>!task.completed)
-    console.log(this.f2data)
+    this.filterdata=this.data.filter(task=>!task.completed)
+    console.log(this.filterdata)
 
   }
 
