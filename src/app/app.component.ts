@@ -13,12 +13,37 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   data: ITodo[] = [];
+  filterdata: ITodo[]=[];
   newItem: string = '';
   id: string = '';
   selectedTask!: string;
+
   
 
   constructor(private service: ServiceService) {}
+
+  taskLeft():number{
+    return this.data.filter(task => !task.completed).length;
+  }
+  allTask():ITodo[]{
+    console.log("alltask")
+    return this.filterdata;
+    
+  }
+  completedTask(){
+    console.log("complted task");
+    console.log("complted task");
+    this.filterdata=this.filterdata.filter(task=>task.completed)
+    console.log(this.filterdata)
+    
+
+  }
+  activeTask(){
+    console.log("active task");
+    this.filterdata=this.filterdata.filter(task=>!task.completed)
+    console.log(this.filterdata)
+
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -59,6 +84,7 @@ export class AppComponent implements OnInit {
       (response) => {
         console.log(response);
         this.data = response;
+        this.filterdata = response;
       },
       (error) => {
         console.error('Error fetching data', error);

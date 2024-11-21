@@ -34,10 +34,10 @@
     </div>
 
     <div class="bottom">
-      <span>items left</span>
-      <span><button>all</button>
-      <button>active</button>
-      <button>completed</button></span>
+      <span>{{taskLeft()}} items left</span>
+      <span><button (click)="allTask()">all</button>
+      <button (click)="activeTask()">active</button>
+      <button (click)="completedTask()">completed</button></span>
       <span></span>
     </div>
   </div>
