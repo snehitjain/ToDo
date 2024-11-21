@@ -14,71 +14,64 @@ import { FormsModule } from '@angular/forms';
 export class AppComponent implements OnInit {
   data: ITodo[] = [];
   filterdata: ITodo[] = [];
-  
- 
 
   newItem: string = '';
   id: string = '';
   selectedTask!: string;
 
-  
-
   constructor(private service: ServiceService) {}
 
-  taskLeft():number{
-    return this.data.filter(task => !task.completed).length;
+  taskLeft(): number {
+    return this.data.filter((task) => !task.completed).length;
   }
-  allTask(){
-    console.log("alltask",this.filterdata)
-    this.filterdata=this.data;
-    
+  allTask() {
+    console.log('alltask', this.filterdata);
+    this.filterdata = this.data;
+    this.selectedTask = 'all';
   }
-  completedTask(){
-    console.log("complted task");
-    this.filterdata=this.data.filter(tasks=>tasks.completed)
-    console.log(this.filterdata)
-    
-
+  completedTask() {
+    console.log('complted task');
+    this.filterdata = this.data.filter((tasks) => tasks.completed);
+    console.log(this.filterdata);
+    this.selectedTask = 'completed';
   }
-  activeTask(){
-    console.log("active task");
-    this.filterdata=this.data.filter(task=>!task.completed)
-    console.log(this.filterdata)
-
+  activeTask() {
+    console.log('active task');
+    this.filterdata = this.data.filter((task) => !task.completed);
+    console.log(this.filterdata);
+    this.selectedTask = 'active';
   }
 
   ngOnInit(): void {
     this.getData();
   }
-  onTaskSelect(oneitem:ITodo): void {
-    let completed=!oneitem.completed
+  onTaskSelect(oneitem: ITodo): void {
+    let completed = !oneitem.completed;
     console.log(`selected id ${completed}`);
-      this.service.updateData({completed:completed},oneitem._id).subscribe(
-      (update)=>{
+    this.service.updateData({ completed: completed }, oneitem._id).subscribe(
+      (update) => {
         console.log(update);
-        oneitem.completed=completed;
-        
+        oneitem.completed = completed;
       },
-      (error)=>{
-        console.error('Error deleting task',error);
-        alert('There was error deleting the task')
+      (error) => {
+        console.error('Error deleting task', error);
+        alert('There was error deleting the task');
       }
-    )
+    );
   }
 
   onCrossSelect(_id: string): void {
-   
     console.log(`selected id ${_id}`);
-      this.service.deleteDatabyId(_id).subscribe(
-        (deletion)=>{
-          console.log(deletion);
-          this.data = this.data.filter(item => item._id !== _id)
-        },
-        (error)=>{
-          console.error('Error deleting task',error);
-          alert('There was error deleting the task')
-        }
-      )
+    this.service.deleteDatabyId(_id).subscribe(
+      (deletion) => {
+        console.log(deletion);
+        this.data = this.data.filter((item) => item._id !== _id);
+      },
+      (error) => {
+        console.error('Error deleting task', error);
+        alert('There was error deleting the task');
+      }
+    );
   }
 
   getData(): void {
@@ -99,6 +92,12 @@ export class AppComponent implements OnInit {
       (adding) => {
         console.log(adding);
         this.data.push(adding);
+        this.filterdata.push(adding);
+        if (this.selectedTask === 'active') {
+          this.filterdata = this.data.filter((task) => !task.completed);
+        } else if (this.selectedTask === 'completed') {
+          this.filterdata = this.data.filter((task) => task.completed);
+        }
         this.newItem = '';
       },
       (error) => {
