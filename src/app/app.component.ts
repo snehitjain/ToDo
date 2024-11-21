@@ -13,7 +13,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   data: ITodo[] = [];
-  filterdata: ITodo[]=[];
+  filterdata: ITodo[] = [];
+  f1data: ITodo[]=[];
+  f2data: ITodo[]=[];
+
   newItem: string = '';
   id: string = '';
   selectedTask!: string;
@@ -26,22 +29,21 @@ export class AppComponent implements OnInit {
     return this.data.filter(task => !task.completed).length;
   }
   allTask():ITodo[]{
-    console.log("alltask")
+    console.log("alltask",this.filterdata)
     return this.filterdata;
     
   }
   completedTask(){
     console.log("complted task");
-    console.log("complted task");
-    this.filterdata=this.filterdata.filter(task=>task.completed)
-    console.log(this.filterdata)
+    this.f1data=this.data.filter(tasks=>tasks.completed)
+    console.log(this.f1data)
     
 
   }
   activeTask(){
     console.log("active task");
-    this.filterdata=this.filterdata.filter(task=>!task.completed)
-    console.log(this.filterdata)
+    this.f2data=this.data.filter(task=>!task.completed)
+    console.log(this.f2data)
 
   }
 
