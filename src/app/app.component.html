@@ -2,7 +2,7 @@
   <h1 class="body">Todos</h1>
 
   <div class="todo">
-    <input 
+    <input
       [(ngModel)]="newItem"
       (keyup.enter)="addTodo()"
       autofocus=""
@@ -12,22 +12,36 @@
   </div>
   <div class="list">
     <div *ngIf="data.length" class="list2">
-      <div *ngFor="let item of data">
-        <input
-          type="checkbox"
-          [value]="item._id"
-          [checked]="item.completed"
-          (change)="onTaskSelect(item)"
-        />
-        <label [ngClass]="{ 'strikethrough': item.completed===true}">{{ item.name }}</label>
-        
-<button class="close-btn close-bt" (click)="onCrossSelect(item._id)">&times;</button>
-
+      <div *ngFor="let item of data" class="forbtn">
+        <span>
+          <input
+            type="checkbox"
+            [value]="item._id"
+            [checked]="item.completed"
+            (change)="onTaskSelect(item)"
+          />
+          <label [ngClass]="{ strikethrough: item.completed === true }">{{
+            item.name
+          }}</label>
+        </span>
+        <span>
+          <button class="close-btn" (click)="onCrossSelect(item._id)">
+            &times;
+          </button>
+        </span>
       </div>
+      <hr />
+    </div>
+
+    <div class="bottom">
+      <span>items left</span>
+      <span><button>all</button>
+      <button>active</button>
+      <button>completed</button></span>
+      <span></span>
     </div>
   </div>
   <div *ngIf="!data.length">
     <p>No data available</p>
   </div>
-
 </body>
